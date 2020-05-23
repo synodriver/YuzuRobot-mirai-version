@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "mysql:mysql-connector-java:5.1.47"
+    implementation "me.liuwj.ktorm:ktorm-core:$ktorm_version"
+    implementation "org.koin:koin-ktor:$koin_version"
+    implementation "net.mamoe:mirai-core-qqandroid:$mirai_version"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': "MainKt"
+    }
+}
