@@ -1,6 +1,6 @@
 package cn.yumetsuki.murasame.repo.entity
 
-import cn.yumetsuki.murasame.util.timeStamp
+import cn.yumetsuki.util.timeStamp
 import me.liuwj.ktorm.entity.Entity
 import me.liuwj.ktorm.schema.Table
 import me.liuwj.ktorm.schema.long

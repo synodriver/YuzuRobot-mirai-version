@@ -1,4 +1,4 @@
-package cn.yumetsuki.murasame.util
+package cn.yumetsuki.util
 
 fun String.removeBlank(): String {
     return replace(Regex("\\s"), "")

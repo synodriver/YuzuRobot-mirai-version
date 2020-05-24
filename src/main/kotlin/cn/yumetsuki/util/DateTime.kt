@@ -1,4 +1,4 @@
-package cn.yumetsuki.murasame.util
+package cn.yumetsuki.util
 
 import java.time.*
 

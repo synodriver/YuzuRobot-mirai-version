@@ -1,6 +1,6 @@
 package cn.yumetsuki.murasame.repo.entity
 
-import cn.yumetsuki.murasame.util.timeStamp
+import cn.yumetsuki.util.timeStamp
 import me.liuwj.ktorm.database.Database
 import me.liuwj.ktorm.dsl.and
 import me.liuwj.ktorm.dsl.eq

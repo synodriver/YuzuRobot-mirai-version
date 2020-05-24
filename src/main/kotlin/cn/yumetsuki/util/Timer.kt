@@ -1,4 +1,4 @@
-package cn.yumetsuki.murasame.util
+package cn.yumetsuki.util
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
