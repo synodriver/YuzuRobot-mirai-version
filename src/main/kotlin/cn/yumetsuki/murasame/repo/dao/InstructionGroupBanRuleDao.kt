@@ -7,7 +7,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import me.liuwj.ktorm.database.Database
+import me.liuwj.ktorm.dsl.and
+import me.liuwj.ktorm.dsl.eq
 import me.liuwj.ktorm.entity.add
+import me.liuwj.ktorm.entity.find
 import me.liuwj.ktorm.entity.sequenceOf
 import me.liuwj.ktorm.entity.toList
 
@@ -20,6 +23,8 @@ interface InstructionGroupBanRuleDao {
     suspend fun updateBanRule(vararg rules: InstructionGroupBanRule)
 
     suspend fun queryBanRule(): List<InstructionGroupBanRule>
+
+    suspend fun queryBanRuleByTagAndGroupId(tag: String, groupId: Long): InstructionGroupBanRule?
 
 }
 
@@ -53,5 +58,10 @@ class InstructionGroupBanRuleDaoImpl(
         database.sequenceOf(InstructionGroupBanRules).toList()
     }
 
+    override suspend fun queryBanRuleByTagAndGroupId(tag: String, groupId: Long): InstructionGroupBanRule? = withContext(Dispatchers.IO) {
+        database.sequenceOf(InstructionGroupBanRules).find {
+            it.instructionTag eq tag and (it.groupId eq groupId)
+        }
+    }
 
 }
