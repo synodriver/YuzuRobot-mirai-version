@@ -4,10 +4,8 @@ import cn.yumetsuki.murasame.repo.entity.InviteRequest
 import cn.yumetsuki.murasame.repo.entity.InviteRequests
 import kotlinx.coroutines.*
 import me.liuwj.ktorm.database.Database
-import me.liuwj.ktorm.entity.add
-import me.liuwj.ktorm.entity.map
-import me.liuwj.ktorm.entity.sequenceOf
-import me.liuwj.ktorm.entity.toList
+import me.liuwj.ktorm.dsl.eq
+import me.liuwj.ktorm.entity.*
 
 interface InviteRequestDao {
 
@@ -18,6 +16,8 @@ interface InviteRequestDao {
     suspend fun updateInviteRequests(vararg inviteRequests: InviteRequest)
 
     suspend fun queryInviteRequests(): List<InviteRequest>
+
+    suspend fun queryInviteRequestByGroupId(groupId: Long): InviteRequest?
 
 }
 
@@ -49,6 +49,12 @@ class InviteRequestDaoImpl(
 
     override suspend fun queryInviteRequests(): List<InviteRequest> = withContext(Dispatchers.IO) {
         database.sequenceOf(InviteRequests).toList()
+    }
+
+    override suspend fun queryInviteRequestByGroupId(groupId: Long): InviteRequest? = withContext(Dispatchers.IO) {
+        database.sequenceOf(InviteRequests).find {
+            it.groupId eq groupId
+        }
     }
 
 }

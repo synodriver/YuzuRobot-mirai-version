@@ -4,13 +4,15 @@ import cn.yumetsuki.murasame.repo.entity.Group
 import cn.yumetsuki.murasame.repo.entity.Groups
 import kotlinx.coroutines.*
 import me.liuwj.ktorm.database.Database
+import me.liuwj.ktorm.dsl.eq
 import me.liuwj.ktorm.entity.add
+import me.liuwj.ktorm.entity.find
 import me.liuwj.ktorm.entity.sequenceOf
 import me.liuwj.ktorm.entity.toList
 
 interface GroupDao {
 
-    suspend fun addGroups(vararg groups: Group)
+    suspend fun insertGroups(vararg groups: Group)
 
     suspend fun deleteGroups(vararg groups: Group)
 
@@ -18,12 +20,14 @@ interface GroupDao {
 
     suspend fun queryGroups(): List<Group>
 
+    suspend fun queryGroupById(groupId: Long): Group?
+
 }
 
 class GroupDaoImpl(
     private val database: Database
 ): GroupDao {
-    override suspend fun addGroups(vararg groups: Group) = withContext(Dispatchers.IO) {
+    override suspend fun insertGroups(vararg groups: Group) = withContext(Dispatchers.IO) {
         database.sequenceOf(Groups).let { entitySequence ->
             groups.map {
                 async { entitySequence.add(it) }
@@ -48,5 +52,11 @@ class GroupDaoImpl(
 
     override suspend fun queryGroups(): List<Group> = withContext(Dispatchers.IO) {
         database.sequenceOf(Groups).toList()
+    }
+
+    override suspend fun queryGroupById(groupId: Long): Group? = withContext(Dispatchers.IO) {
+        database.sequenceOf(Groups).find {
+            it.groupId eq groupId
+        }
     }
 }
