@@ -1,11 +1,12 @@
 package cn.yumetsuki.murasame.feature.superadmin
 
 import cn.yumetsuki.murasame.repo.dao.GroupDao
+import cn.yumetsuki.util.globalKoin
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 
 fun GroupMessageSubscribersBuilder.disableGroup() {
 
-    val groupDao: GroupDao by cn.yumetsuki.util.globalKoin().inject()
+    val groupDao: GroupDao by globalKoin().inject()
 
     superAdmin() and content {
         it.removePrefix("admin ").startsWith("enable")

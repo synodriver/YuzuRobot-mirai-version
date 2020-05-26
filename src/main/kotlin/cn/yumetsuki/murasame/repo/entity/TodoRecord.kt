@@ -15,45 +15,12 @@ import me.liuwj.ktorm.schema.varchar
 import java.time.LocalDateTime
 
 
-sealed class TodoType(
-    val type: String,
-    val minDuration: Int, //unit: h
-    val maxDuration: Int //unit: h
+
+enum class TodoType(
+    val type: String
 ) {
-
-    fun recordWithEndTimeAuth(
-        database: Database,
-        userId: Long,
-        groupId: Long,
-        recordTime: LocalDateTime
-    ): Boolean {
-        val sequence = database.sequenceOf(TodoRecords)
-        val isDoingSomething = sequence.any {
-            (TodoRecords.endTime greater LocalDateTime.now().timeStamp()) and (TodoRecords.userId eq userId) and (TodoRecords.groupId eq groupId)
-        }
-        if (!isDoingSomething) {
-            sequence.add(
-                TodoRecord.new(
-                    userId, groupId, recordTime.timeStamp(), this
-                )
-            )
-        }
-        return !isDoingSomething
-    }
-
+    Work("打工"), Exercise("锻炼")
 }
-
-class Work(
-    val moneyPerDuration: Int,
-    minDuration: Int,
-    maxDuration: Int
-): TodoType("打工", minDuration, maxDuration)
-
-class Exercise(
-    val powerPerDuration: Int,
-    minDuration: Int,
-    maxDuration: Int
-): TodoType("锻炼", minDuration, maxDuration)
 
 interface TodoRecord: Entity<TodoRecord> {
 

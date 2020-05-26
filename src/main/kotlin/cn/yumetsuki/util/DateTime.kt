@@ -2,6 +2,14 @@ package cn.yumetsuki.util
 
 import java.time.*
 
+fun LocalDateTime.nextDayStart(): LocalDateTime {
+    return nowDayStart().plusDays(1)
+}
+
+fun LocalDateTime.nowDayStart(): LocalDateTime {
+    return this.withHour(0).withMinute(0).withSecond(0)
+}
+
 fun LocalDateTime.timeStamp(): Long {
     return toInstant(ZoneOffset.of("+8")).toEpochMilli()
 }

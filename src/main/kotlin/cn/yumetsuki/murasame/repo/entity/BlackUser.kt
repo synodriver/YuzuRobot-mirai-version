@@ -5,6 +5,7 @@ import me.liuwj.ktorm.schema.Table
 import me.liuwj.ktorm.schema.long
 
 interface BlackUser : Entity<BlackUser> {
+    companion object : Entity.Factory<BlackUser>()
     var userId: Long
 }
 

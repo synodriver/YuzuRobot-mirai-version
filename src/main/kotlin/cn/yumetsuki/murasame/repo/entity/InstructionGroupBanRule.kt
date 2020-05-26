@@ -6,6 +6,7 @@ import me.liuwj.ktorm.schema.long
 import me.liuwj.ktorm.schema.varchar
 
 interface InstructionGroupBanRule : Entity<InstructionGroupBanRule> {
+    companion object : Entity.Factory<InstructionGroupBanRule>()
     var instructionTag: String
     var groupId: Long
 }

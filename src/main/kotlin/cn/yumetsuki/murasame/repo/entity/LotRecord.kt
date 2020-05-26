@@ -1,28 +1,34 @@
 package cn.yumetsuki.murasame.repo.entity
 
+import cn.yumetsuki.resource.*
 import me.liuwj.ktorm.entity.Entity
 import me.liuwj.ktorm.schema.Table
 import me.liuwj.ktorm.schema.long
 import me.liuwj.ktorm.schema.varchar
 
 enum class LotType(
-    val type: String,
-    val imageUrl: String,
-    val recordUrl: String
+        val type: String,
+        val imageUrl: String
 ) {
 
-    MostLucky("大吉", "https://s2.ax1x.com/2019/10/12/ujkca8.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_1.ogg"),
-    MiddleLuckyFirst("中吉", "https://s2.ax1x.com/2019/10/12/ujkrrt.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_3.ogg"),
-    MiddleLuckySecond("中吉", "https://s2.ax1x.com/2019/10/12/ujkrrt.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_3.ogg"),
-    LuckyFirst("吉","https://s2.ax1x.com/2019/10/12/ujkd8H.png" ,"https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_2.ogg"),
-    LuckySecond("吉","https://s2.ax1x.com/2019/10/12/ujkd8H.png" ,"https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_2.ogg"),
-    SmallLuckyFirst("小吉", "https://s2.ax1x.com/2019/10/12/ujk0xA.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_4.ogg"),
-    SmallLuckySecond("小吉", "https://s2.ax1x.com/2019/10/12/ujk0xA.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_4.ogg"),
-    LastLuckyFirst("末吉", "https://s2.ax1x.com/2019/10/12/ujk6Vf.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_5.ogg"),
-    LastLuckySecond("末吉", "https://s2.ax1x.com/2019/10/12/ujk6Vf.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_5.ogg"),
-    OminousFirst("凶", "https://s2.ax1x.com/2019/10/12/ujkoq0.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_6.ogg"),
-    OminousSecond("凶", "https://s2.ax1x.com/2019/10/12/ujkoq0.png", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_6.ogg"),
-    MostOminous("大凶", "https://s2.ax1x.com/2020/02/09/1fj3m8.jpg", "https://yumetsuki-robot.oss-cn-beijing.aliyuncs.com/mur_omkj_6.ogg")
+    MostLuckyFirst("大吉", LOT_MOST_LUCKY_IMG),
+    MostLuckySecond("大吉", LOT_MOST_LUCKY_IMG),
+    MiddleLuckyFirst("中吉", LOT_MIDDLE_LUCKY_IMG),
+    MiddleLuckySecond("中吉", LOT_MIDDLE_LUCKY_IMG),
+    MiddleLuckyThird("中吉", LOT_MIDDLE_LUCKY_IMG),
+    LuckyFirst("吉", LOT_LUCKY_IMG),
+    LuckySecond("吉", LOT_LUCKY_IMG),
+    LuckyThird("吉", LOT_LUCKY_IMG),
+    SmallLuckyFirst("小吉", LOT_SMALL_LUCKY_IMG),
+    SmallLuckySecond("小吉", LOT_SMALL_LUCKY_IMG),
+    SmallLuckyThird("小吉", LOT_SMALL_LUCKY_IMG),
+    LastLuckyFirst("末吉", LOT_LAST_LUCKY_IMG),
+    LastLuckySecond("末吉", LOT_LAST_LUCKY_IMG),
+    LastLuckyThird("末吉", LOT_LAST_LUCKY_IMG),
+    OminousFirst("凶", LOT_OMINOUS_IMG),
+    OminousSecond("凶", LOT_OMINOUS_IMG),
+    OminousThird("凶", LOT_OMINOUS_IMG),
+    MostOminous("大凶", LOT_MOST_OMINOUS_IMG)
 
 }
 

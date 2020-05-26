@@ -4,7 +4,9 @@ import cn.yumetsuki.murasame.repo.entity.BlackUser
 import cn.yumetsuki.murasame.repo.entity.BlackUsers
 import kotlinx.coroutines.*
 import me.liuwj.ktorm.database.Database
+import me.liuwj.ktorm.dsl.eq
 import me.liuwj.ktorm.entity.add
+import me.liuwj.ktorm.entity.find
 import me.liuwj.ktorm.entity.sequenceOf
 import me.liuwj.ktorm.entity.toList
 
@@ -15,6 +17,8 @@ interface BlackUserDao {
     suspend fun deleteBlackUser(vararg blackUsers: BlackUser)
 
     suspend fun queryBlackUsers(): List<BlackUser>
+
+    suspend fun queryBlackUserById(userId: Long): BlackUser?
 
 }
 
@@ -42,5 +46,10 @@ class BlackUserDaoImpl(
         Unit
     }
 
+    override suspend fun queryBlackUserById(userId: Long): BlackUser? = withContext(Dispatchers.IO) {
+        database.sequenceOf(BlackUsers).find {
+            it.userId eq userId
+        }
+    }
 
 }
