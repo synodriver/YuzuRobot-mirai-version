@@ -1,5 +1,6 @@
 package cn.yumetsuki.murasame.feature.common
 
+import cn.yumetsuki.murasame.feature.other.recordReplyEvent
 import cn.yumetsuki.murasame.listeningfilter.tag
 import cn.yumetsuki.murasame.repo.dao.QQUserDao
 import cn.yumetsuki.murasame.repo.dao.RobotDao
@@ -7,7 +8,7 @@ import cn.yumetsuki.util.globalKoin
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.message.data.PlainText
 
-fun GroupMessageSubscribersBuilder.giveMoney() {
+fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
 
     val qqUserDao : QQUserDao by globalKoin().inject()
     val robotDao : RobotDao by globalKoin().inject()
@@ -16,8 +17,10 @@ fun GroupMessageSubscribersBuilder.giveMoney() {
     val favoriteAddPerMoney = 1
 
     atBot() and contains("打钱") and tag("giveMoney") quoteReply {
+        recordReplyEvent()
+        if (intercepted) intercept()
         message[PlainText]?.let {
-            it.content.removePrefix("打钱").toIntOrNull()?.let money@{ money ->
+            it.content.trim().removePrefix("打钱").toIntOrNull()?.let money@{ money ->
                 if (money == 0) return@money "岂可修！这不是没有钱嘛？！！！！狗修金快把钱都交出来！"
                 val user = qqUserDao.findQQUserByUserIdAndGroupIdOrNewDefault(sender.id, group.id)
                 if (user.money < money) "唔....主人的钱好像不太够呢...剩余资金: ${user.money}(饿"

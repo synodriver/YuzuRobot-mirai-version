@@ -9,10 +9,7 @@ import kotlinx.coroutines.withContext
 import me.liuwj.ktorm.database.Database
 import me.liuwj.ktorm.dsl.and
 import me.liuwj.ktorm.dsl.eq
-import me.liuwj.ktorm.entity.add
-import me.liuwj.ktorm.entity.find
-import me.liuwj.ktorm.entity.sequenceOf
-import me.liuwj.ktorm.entity.toList
+import me.liuwj.ktorm.entity.*
 
 interface InstructionGroupBanRuleDao {
 
@@ -41,8 +38,14 @@ class InstructionGroupBanRuleDaoImpl(
     }
 
     override suspend fun deleteBanRule(vararg rules: InstructionGroupBanRule) = withContext(Dispatchers.IO) {
-        rules.map {
-            async { it.delete() }
+        database.sequenceOf(InstructionGroupBanRules).also { entitySequence ->
+            rules.map {
+                async {
+                    entitySequence.removeIf { r ->
+                        r.instructionTag eq it.instructionTag and (r.groupId eq it.groupId)
+                    }
+                }
+            }
         }
         Unit
     }

@@ -2,8 +2,8 @@ package cn.yumetsuki.murasame.repo.entity
 
 import java.time.LocalDateTime
 
-enum class GoHanType {
-    Breakfast, Lunch, Dinner
+enum class GoHanType(val type: String) {
+    Breakfast("早饭"), Lunch("午饭"), Dinner("晚饭")
 }
 
 class GoHanRecord(

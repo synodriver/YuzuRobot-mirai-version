@@ -1,5 +1,6 @@
 package cn.yumetsuki.murasame.feature.common
 
+import cn.yumetsuki.murasame.feature.other.recordReplyEvent
 import cn.yumetsuki.murasame.listeningfilter.tag
 import cn.yumetsuki.murasame.repo.dao.QQUserDao
 import cn.yumetsuki.murasame.repo.dao.TodoRecordDao
@@ -13,12 +14,14 @@ import net.mamoe.mirai.message.data.PlainText
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-fun GroupMessageSubscribersBuilder.todo() {
+fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
 
     val todoRecordDao: TodoRecordDao by globalKoin().inject()
     val qqUserDao: QQUserDao by globalKoin().inject()
 
     atBot() and contains("打工") quoteReply {
+        recordReplyEvent()
+        if (intercepted) intercept()
         message[PlainText]?.let {
             it.content.trim().removePrefix("打工").toIntOrNull()?.let hour@{ hour ->
                 val moneyPerHour = 5
@@ -29,7 +32,7 @@ fun GroupMessageSubscribersBuilder.todo() {
                 //检查工作时长
                 if (hour !in minHour..maxHour) return@hour "kora..这么工作主人会吃不消的啦！...正常一次工作时长: ${minHour}～${maxHour}小时"
                 //检查工作开始时间和结束时间
-                if (isBetweenEnableTime(hour, workEnableStartTime, workEnableEndTime)) {
+                if (!isBetweenEnableTime(hour, workEnableStartTime, workEnableEndTime)) {
                     return@hour "唔....这段时间的话...现在芦花姐的田心屋没在营业了呢....田心屋营业时间: ${workEnableStartTime.simpleFormat()}～${workEnableEndTime.simpleFormat()}"
                 }
                 todoRecordDao.findTodoRecordByBothIdBeforeEndTime(
@@ -67,7 +70,7 @@ fun GroupMessageSubscribersBuilder.todo() {
                 //检查工作时长
                 if (hour !in minHour..maxHour) return@hour "kora..这么锻炼主人会吃不消的啦！...正常一次锻炼时长: ${minHour}～${maxHour}小时"
                 //检查工作开始时间和结束时间
-                if (isBetweenEnableTime(hour, exerciseEnableStartTime, exerciseEnableEndTime)) {
+                if (!isBetweenEnableTime(hour, exerciseEnableStartTime, exerciseEnableEndTime)) {
                     return@hour "唔....这段时间的话...不太适合锻炼吧....可锻炼时间: ${exerciseEnableStartTime.simpleFormat()}～${exerciseEnableEndTime.simpleFormat()}"
                 }
                 todoRecordDao.findTodoRecordByBothIdBeforeEndTime(

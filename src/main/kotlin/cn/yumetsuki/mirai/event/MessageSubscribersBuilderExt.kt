@@ -3,6 +3,10 @@ package cn.yumetsuki.mirai.event
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.message.MessageEvent
 
+fun GroupMessageSubscribersBuilder.wrapSentByOwner(listeners: GroupMessageSubscribersBuilder.() -> Unit) {
+    withFilter(sentByOwner().filter, listeners)
+}
+
 fun GroupMessageSubscribersBuilder.sentFromGroups(
         vararg groupIds: Long,
         listeners: GroupMessageSubscribersBuilder.() -> Unit

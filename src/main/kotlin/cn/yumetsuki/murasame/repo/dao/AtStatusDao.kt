@@ -29,7 +29,6 @@ class AtStatusDaoImpl: AtStatusDao {
         atStatus: AtStatus
     ): Deferred<Unit> = GlobalScope.async {
         mutex.withLock {
-
             val key = atStatus.run { userId to groupId }
 
             val value = atStatus.atCount

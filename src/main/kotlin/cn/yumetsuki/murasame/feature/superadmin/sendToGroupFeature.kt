@@ -19,7 +19,9 @@ fun GroupMessageSubscribersBuilder.sendToGroup() {
         val groupId = arguments[0].toLong()
         val msg = arguments[1]
         groupDao.queryGroupById(groupId)?.let {
-            bot.getGroupOrNull(groupId)?.sendMessage(msg)?:"诶？...吾辈好像不在这个群里..."
+            bot.getGroupOrNull(groupId)?.sendMessage(msg)?.let {
+                "发送成功啦～"
+            }?:"诶？...吾辈好像不在这个群里..."
         }?:"诶？这个群好像没有被授权..."
     }
 

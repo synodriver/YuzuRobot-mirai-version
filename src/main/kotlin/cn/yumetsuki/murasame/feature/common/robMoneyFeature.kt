@@ -1,6 +1,7 @@
 package cn.yumetsuki.murasame.feature.common
 
 import cn.yumetsuki.mirai.data.withLine
+import cn.yumetsuki.murasame.feature.other.recordReplyEvent
 import cn.yumetsuki.murasame.listeningfilter.tag
 import cn.yumetsuki.murasame.repo.dao.QQUserDao
 import cn.yumetsuki.murasame.repo.dao.RobMoneyRecordDao
@@ -13,7 +14,7 @@ import kotlin.math.floor
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-fun GroupMessageSubscribersBuilder.robMoney() {
+fun GroupMessageSubscribersBuilder.robMoney(intercepted: Boolean = true) {
 
     val qqUserDao : QQUserDao by globalKoin().inject()
     val robotDao: RobotDao by globalKoin().inject()
@@ -24,6 +25,8 @@ fun GroupMessageSubscribersBuilder.robMoney() {
     atBot() and content {
         message[PlainText]?.content?.trim() == "抢钱"
     } and tag("robMoney") quoteReply {
+        recordReplyEvent()
+        if (intercepted) intercept()
         robMoneyRecordDao.findRobMoneyRecordsByUserIdAndGroupIdAndDate(
                 sender.id, group.id, LocalDate.now()
         ).takeIf {

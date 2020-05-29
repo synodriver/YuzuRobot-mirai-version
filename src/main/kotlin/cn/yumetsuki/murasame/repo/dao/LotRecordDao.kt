@@ -8,10 +8,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import me.liuwj.ktorm.database.Database
 import me.liuwj.ktorm.dsl.*
-import me.liuwj.ktorm.entity.add
-import me.liuwj.ktorm.entity.find
-import me.liuwj.ktorm.entity.sequenceOf
-import me.liuwj.ktorm.entity.toList
+import me.liuwj.ktorm.entity.*
 
 interface LotRecordDao {
     suspend fun queryLotRecordBetweenTime(
@@ -22,6 +19,8 @@ interface LotRecordDao {
 
     suspend fun queryLotRecords() : List<LotRecord>
 
+    suspend fun queryLotRecordsByUserIdAndGroupId(userId: Long, groupId: Long): List<LotRecord>
+
     suspend fun insertLotRecords(vararg lotRecords: LotRecord)
 }
 
@@ -31,6 +30,12 @@ class LotRecordDaoImpl(
 
     override suspend fun queryLotRecords(): List<LotRecord> = withContext(Dispatchers.IO) {
         database.sequenceOf(LotRecords).toList()
+    }
+
+    override suspend fun queryLotRecordsByUserIdAndGroupId(userId: Long, groupId: Long): List<LotRecord> = withContext(Dispatchers.IO) {
+        database.sequenceOf(LotRecords).filter {
+            it.userId eq userId and (it.groupId eq groupId)
+        }.toList()
     }
 
     override suspend fun queryLotRecordBetweenTime(userId: Long, groupId: Long, range: LongRange): LotRecord? = withContext(Dispatchers.IO) {

@@ -19,7 +19,7 @@ fun GroupMessageSubscribersBuilder.queryGroupConfig() {
 }
 
 private fun formatGroupConfig(group: Group): String {
-    return "\n群上限: ${String.format(
+    return "群上限: ${String.format(
             "%.2f",
             group.limitTime / 3600.0
     )}小时${group.limitCount}次\n个人上限: ${String.format(

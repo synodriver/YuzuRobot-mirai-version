@@ -11,5 +11,5 @@ interface Instruction: Entity<Instruction> {
 
 object Instructions: Table<Instruction>("instruction") {
     val tag by varchar("tag").primaryKey().bindTo { it.tag }
-    val description by varchar("description").primaryKey().bindTo { it.description }
+    val description by varchar("description").bindTo { it.description }
 }
