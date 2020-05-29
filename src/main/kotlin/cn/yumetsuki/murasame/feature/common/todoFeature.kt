@@ -35,7 +35,7 @@ fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
                 if (!isBetweenEnableTime(hour, workEnableStartTime, workEnableEndTime)) {
                     return@hour "唔....这段时间的话...现在芦花姐的田心屋没在营业了呢....田心屋营业时间: ${workEnableStartTime.simpleFormat()}～${workEnableEndTime.simpleFormat()}"
                 }
-                todoRecordDao.findTodoRecordByBothIdBeforeEndTime(
+                return@hour todoRecordDao.findTodoRecordByBothIdBeforeEndTime(
                         sender.id, group.id, LocalDateTime.now().timeStamp()
                 ).takeIf { todoRecords ->
                     todoRecords.isNotEmpty()

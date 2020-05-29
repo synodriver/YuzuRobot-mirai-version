@@ -8,6 +8,8 @@ import cn.yumetsuki.util.globalKoin
 import cn.yumetsuki.util.toList
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.message.data.At
+import net.mamoe.mirai.message.data.PlainText
+import java.sql.SQLException
 
 fun GroupMessageSubscribersBuilder.matchRegexCorpusFeature() {
 
@@ -17,11 +19,16 @@ fun GroupMessageSubscribersBuilder.matchRegexCorpusFeature() {
         message[At] == null
     } quoteReply {
         recordReplyEvent()
-        regexCorpusDao.findRegexCorpusMatchRegex(it).takeIf { corpuses ->
-            corpuses.isNotEmpty()
-        }?.let { corpuses ->
-            getMessageChainFromCQMessages(CQMessage(corpuses.random().response).toList())
-        }?:Unit
+        val matchMessage = message[PlainText]?.content?:return@quoteReply Unit
+        try {
+            regexCorpusDao.findRegexCorpusMatchRegex(matchMessage).takeIf { corpuses ->
+                corpuses.isNotEmpty()
+            }?.let { corpuses ->
+                getMessageChainFromCQMessages(CQMessage(corpuses.random().response).toList())
+            }?:Unit
+        } catch (e: SQLException) {
+            Unit
+        }
     }
 
 }

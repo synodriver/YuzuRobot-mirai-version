@@ -22,14 +22,14 @@ fun GroupMessageSubscribersBuilder.matchChatterBot() {
 
     atBot {
         recordReplyEvent()
-        val request = message[PlainText]?:return@atBot
+        val request = message[PlainText]?.content?.trim()?.takeIf { it.isNotEmpty() }?:return@atBot
         try {
             HttpClient(CIO).use { httpClient ->
                 httpClient.post<String>(
                     host = "121.36.84.191",
                     port = 8081,
                     path = "/response/generate",
-                    body = mapOf("request" to request.content).toJson()
+                    body = mapOf("request" to request).toJson()
                 ) {
                     header("content-type", "application/json")
                 }.fromJson<Map<String, String>>()["response"]?.takeIf { s -> s.isNotEmpty() }
