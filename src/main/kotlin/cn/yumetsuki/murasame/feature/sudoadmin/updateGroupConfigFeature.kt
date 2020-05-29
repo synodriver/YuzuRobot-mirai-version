@@ -12,7 +12,7 @@ fun GroupMessageSubscribersBuilder.updateGroupConfig() {
     sudoAdmin() and content {
         it.removePrefix("sudo gconf ").startsWith("update ")
     } quoteReply {
-        groupDao.queryGroupById(group.id)?.let { group ->
+        val msg = groupDao.queryGroupById(group.id)?.let { group ->
             val items = it.removePrefix("sudo gconf update ").split(" ")
             if (items.all { item -> item.matches(Regex("--(glt|glc|plt|plc)=\\d+")) }) {
                 items.groupBy { item ->
@@ -33,6 +33,8 @@ fun GroupMessageSubscribersBuilder.updateGroupConfig() {
                 "诶...格式有点不对哦～示例: sudo gconf update --glc=5 --glt=3600"
             }
         }?:"诶？...这个群好像没有被授权诶.."
+        quoteReply(msg)
+        Unit
     }
 }
 

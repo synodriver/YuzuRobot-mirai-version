@@ -11,10 +11,13 @@ fun GroupMessageSubscribersBuilder.listInstruction() {
     sudoAdmin() and content {
         it.removePrefix("sudo ").trim() == "li"
     } quoteReply {
-        instructionDao.queryInstructions().joinToString("\n") {
-            "${it.tag}: ${it.description}"
-        }.let { format ->
-            "可管理功能: \n$format"
-        }
+        quoteReply(
+            instructionDao.queryInstructions().joinToString("\n") {
+                "${it.tag}: ${it.description}"
+            }.let { format ->
+                "可管理功能: \n$format"
+            }
+        )
+        Unit
     }
 }

@@ -22,7 +22,7 @@ fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
     atBot() and contains("打工") quoteReply {
         recordReplyEvent()
         if (intercepted) intercept()
-        message[PlainText]?.let {
+        val msg = message[PlainText]?.let {
             it.content.trim().removePrefix("打工").toIntOrNull()?.let hour@{ hour ->
                 val moneyPerHour = 5
                 val minHour = 1
@@ -57,10 +57,12 @@ fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
                 }
             } ?: "唔姆？主人要打工多长时间呢？(示例：打工1)"
         } ?: "唔姆...好像出现了奇怪的错误.."
+        quoteReply(msg)
+        Unit
     }
 
     atBot() and contains("锻炼") quoteReply {
-        message[PlainText]?.let {
+        val msg = message[PlainText]?.let {
             it.content.trim().removePrefix("锻炼").toIntOrNull()?.let hour@{ hour ->
                 val powerPerHour = 5
                 val minHour = 1
@@ -95,6 +97,8 @@ fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
                 }
             } ?: "唔姆？主人要锻炼多长时间呢？(示例：锻炼1)"
         } ?: "唔姆...好像出现了奇怪的错误.."
+        quoteReply(msg)
+        Unit
     }
 
 }

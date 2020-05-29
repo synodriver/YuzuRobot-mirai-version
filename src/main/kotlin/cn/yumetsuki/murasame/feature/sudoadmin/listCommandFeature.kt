@@ -6,7 +6,8 @@ fun GroupMessageSubscribersBuilder.listCommand() {
     sudoAdmin() and content {
         it.removePrefix("sudo ").trim() == "lcmd"
     } quoteReply {
-        """
+        quoteReply(
+            """
             sudo iban [指令码] 管理员在群内禁用某条对话指令
             sudo iopen [指令码] 管理员在群内启用某条对话指令
             sudo gconf 管理员查看群内配置
@@ -27,5 +28,7 @@ fun GroupMessageSubscribersBuilder.listCommand() {
             admin ublack [qq号] 超级管理员拉黑某个人
             admin uwhite [qq号] 超级管理员把某个人从黑名单去除
         """.trimIndent()
+        )
+        Unit
     }
 }

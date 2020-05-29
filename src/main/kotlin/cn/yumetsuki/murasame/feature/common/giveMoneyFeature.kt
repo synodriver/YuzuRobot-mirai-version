@@ -19,7 +19,7 @@ fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
     atBot() and contains("打钱") and tag("giveMoney") quoteReply {
         recordReplyEvent()
         if (intercepted) intercept()
-        message[PlainText]?.let {
+        val msg = message[PlainText]?.let {
             it.content.trim().removePrefix("打钱").toIntOrNull()?.let money@{ money ->
                 if (money == 0) return@money "岂可修！这不是没有钱嘛？！！！！狗修金快把钱都交出来！"
                 val user = qqUserDao.findQQUserByUserIdAndGroupIdOrNewDefault(sender.id, group.id)
@@ -34,6 +34,8 @@ fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
                 "呜哇！！！主人果然对吾辈最好了！～(拿去买好吃的\n(主人剩余资金: ${user.money}\n好感度增加: ${favoriteAdd}\n好感度: ${user.favorite}"
             }?:"唔姆？主人要给多少钱给吾辈呢...(饿"
         }?:"唔？...好像发生了点奇怪的错误.."
+        quoteReply(msg)
+        Unit
     }
 
 }

@@ -13,7 +13,8 @@ fun GroupMessageSubscribersBuilder.rotateImageFeature(intercepted: Boolean = tru
         recordReplyEvent()
         if (intercepted) intercept()
         imageRotateDao.queryImageRotateByCharacterName(it.removePrefix("转"))?.let {
-            getNetImageStreamFromUrl(it.imgUrl).uploadAsImage() + "转呀转呀转${it.characterName}"
-        }?:Unit
+            quoteReply(getNetImageStreamFromUrl(it.imgUrl).uploadAsImage() + "转呀转呀转${it.characterName}")
+        }
+        Unit
     }
 }

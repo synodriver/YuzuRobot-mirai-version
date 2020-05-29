@@ -11,12 +11,14 @@ fun GroupMessageSubscribersBuilder.enableGroup() {
     superAdmin() and content {
         it.removePrefix("admin ").startsWith("enable")
     } quoteReply {
-        it.removePrefix("admin enable ").toLongOrNull()?.let { groupId ->
+        val msg = it.removePrefix("admin enable ").toLongOrNull()?.let { groupId ->
             groupDao.queryGroupById(groupId)?.let { group ->
                 groupDao.updateGroups(group.apply { enable = true })
                 "诶？又要吾辈回去说话吗。。真是拿主人没办法呀。。"
             }?:"诶？这个群好像没有被授权..."
         }?:"唔...执行参数好像不够呢...示例: admin enable 1"
+        quoteReply(msg)
+        Unit
     }
 
 }

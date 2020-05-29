@@ -20,7 +20,7 @@ fun GroupMessageSubscribersBuilder.ownStatus(intercepted: Boolean = true) {
     } quoteReply {
         recordReplyEvent()
         if (intercepted) intercept()
-        todoRecordDao.findTodoRecordByBothIdBeforeEndTime(
+        val msg = todoRecordDao.findTodoRecordByBothIdBeforeEndTime(
                 sender.id, group.id, LocalDateTime.now().timeStamp()
         ).maxBy { it.endTime }?.let {
             PlainText("----------当前状态----------").withLine(
@@ -28,7 +28,9 @@ fun GroupMessageSubscribersBuilder.ownStatus(intercepted: Boolean = true) {
             ).withLine(
                     "结束时间: ${it.endTime.fromTimeStamp().simpleFormat()}"
             )
-        }?:"当前状态：摸鱼"
+        }?:PlainText("当前状态：摸鱼")
+        quoteReply(msg)
+        Unit
     }
 
 }

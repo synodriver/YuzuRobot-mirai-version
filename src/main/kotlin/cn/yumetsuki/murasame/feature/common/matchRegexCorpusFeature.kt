@@ -24,11 +24,12 @@ fun GroupMessageSubscribersBuilder.matchRegexCorpusFeature() {
             regexCorpusDao.findRegexCorpusMatchRegex(matchMessage).takeIf { corpuses ->
                 corpuses.isNotEmpty()
             }?.let { corpuses ->
-                getMessageChainFromCQMessages(CQMessage(corpuses.random().response).toList())
-            }?:Unit
+                quoteReply(getMessageChainFromCQMessages(CQMessage(corpuses.random().response).toList()))
+            }
         } catch (e: SQLException) {
-            Unit
+
         }
+        Unit
     }
 
 }

@@ -15,7 +15,7 @@ fun GroupMessageSubscribersBuilder.banInstruction() {
     sudoAdmin() and content {
         it.removePrefix("sudo ").startsWith("iban")
     } quoteReply {
-        it.removePrefix("sudo iban ").trim().let { tag ->
+        val msg = it.removePrefix("sudo iban ").trim().let { tag ->
             instructionDao.queryInstructionByTag(tag)?.let { instruction ->
                 instructionGroupBanRuleDao.queryBanRuleByTagAndGroupId(
                         tag, group.id
@@ -26,5 +26,7 @@ fun GroupMessageSubscribersBuilder.banInstruction() {
                 "禁用[${instruction.description}]成功啦～～～"
             }?:"诶...这个指令好像不存在诶...可以用: sudo li 看一看哦～"
         }
+        quoteReply(msg)
+        Unit
     }
 }

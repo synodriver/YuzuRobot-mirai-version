@@ -53,7 +53,8 @@ fun GroupMessageSubscribersBuilder.eatTogether(intercepted: Boolean = true) {
                 .withSecond(0)
         val endTime = LocalDateTime.now().withHour(8).withMinute(20)
                 .withSecond(0)
-        eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Breakfast)
+        quoteReply(eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Breakfast))
+        Unit
     }
 
     atBot() and contains("一起吃午饭") quoteReply {
@@ -62,7 +63,8 @@ fun GroupMessageSubscribersBuilder.eatTogether(intercepted: Boolean = true) {
                 .withSecond(0)
         val endTime = LocalDateTime.now().withHour(13).withMinute(20)
                 .withSecond(0)
-        eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Lunch)
+        quoteReply(eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Lunch))
+        Unit
     }
 
     atBot() and contains("一起吃晚饭") quoteReply {
@@ -71,7 +73,8 @@ fun GroupMessageSubscribersBuilder.eatTogether(intercepted: Boolean = true) {
                 .withSecond(0)
         val endTime = LocalDateTime.now().withHour(19).withMinute(30)
                 .withSecond(0)
-        eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Dinner)
+        quoteReply(eatTogetherImpl(startTime, endTime, favoriteAdd, GoHanType.Dinner))
+        Unit
     }
 
 }

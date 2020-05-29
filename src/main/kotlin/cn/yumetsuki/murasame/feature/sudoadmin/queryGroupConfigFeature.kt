@@ -12,9 +12,11 @@ fun GroupMessageSubscribersBuilder.queryGroupConfig() {
     sudoAdmin() and content {
         it.removePrefix("sudo ").trim() == "gconf"
     } quoteReply {
-        groupDao.queryGroupById(group.id)?.let {
+        val msg = groupDao.queryGroupById(group.id)?.let {
             formatGroupConfig(it)
         }?:"诶？...这个群好像没有被授权诶.."
+        quoteReply(msg)
+        Unit
     }
 }
 

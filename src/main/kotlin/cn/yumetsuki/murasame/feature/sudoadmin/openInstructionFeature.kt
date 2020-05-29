@@ -15,7 +15,7 @@ fun GroupMessageSubscribersBuilder.openInstruction() {
     sudoAdmin() and content {
         it.removePrefix("sudo ").startsWith("iopen")
     } quoteReply {
-        it.removePrefix("sudo iopen ").trim().let { tag ->
+        val msg = it.removePrefix("sudo iopen ").trim().let { tag ->
             instructionDao.queryInstructionByTag(tag)?.let { instruction ->
                 instructionGroupBanRuleDao.queryBanRuleByTagAndGroupId(
                         tag, group.id
@@ -25,5 +25,7 @@ fun GroupMessageSubscribersBuilder.openInstruction() {
                 "启用[${instruction.description}]成功啦～～～"
             }?:"诶...这个指令好像不存在诶...可以用: sudo li 看一看哦～"
         }
+        quoteReply(msg)
+        Unit
     }
 }

@@ -11,11 +11,13 @@ fun GroupMessageSubscribersBuilder.whiteUser() {
     superAdmin() and content {
         it.removePrefix("admin ").startsWith("uwhite")
     } quoteReply {
-        it.removePrefix("admin uwhite ").toLongOrNull()?.let { userId ->
+        val msg = it.removePrefix("admin uwhite ").toLongOrNull()?.let { userId ->
             blackUserDao.queryBlackUserById(userId)?.let { user ->
                 blackUserDao.deleteBlackUser(user)
                 "添加用户白名单成功啦～"
             }?:"诶...这个人没有被拉黑啦～"
         }?:"诶？执行参数好像不对呢...示例: admin uwhite 1"
+        quoteReply(msg)
+        Unit
     }
 }
