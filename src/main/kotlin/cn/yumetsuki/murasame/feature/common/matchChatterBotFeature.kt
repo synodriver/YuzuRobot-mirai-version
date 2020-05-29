@@ -22,7 +22,7 @@ fun GroupMessageSubscribersBuilder.matchChatterBot() {
 
     atBot {
         recordReplyEvent()
-        val request = message[PlainText]?.content?.trim()?.takeIf { it.isNotEmpty() }?:return@atBot
+        val request = message[PlainText]?.content?.trim()?.removePunctuation()?:""
         try {
             HttpClient(CIO).use { httpClient ->
                 httpClient.post<String>(
