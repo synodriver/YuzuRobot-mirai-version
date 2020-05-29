@@ -2,15 +2,8 @@ package cn.yumetsuki
 
 class Config(
     val databaseConfig: DatabaseConfig,
-    val qqConfig: QQConfig,
     val chatterbotServiceConfig: ChatterbotServiceConfig
 ) {
-
-    class QQConfig(
-            val qq: Long,
-            val password: String
-    )
-
     class DatabaseConfig(
         val host: String,
         val port: Int,
