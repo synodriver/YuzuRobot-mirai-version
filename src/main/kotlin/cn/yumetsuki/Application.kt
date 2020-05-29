@@ -5,7 +5,6 @@ import cn.yumetsuki.murasame.bean.repoModule
 import cn.yumetsuki.murasame.feature.subscribeAllFeature
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.alsoLogin
-import net.mamoe.mirai.event.subscribeGroupMessages
 import net.mamoe.mirai.join
 import net.mamoe.mirai.utils.BotConfiguration
 import org.koin.core.context.startKoin

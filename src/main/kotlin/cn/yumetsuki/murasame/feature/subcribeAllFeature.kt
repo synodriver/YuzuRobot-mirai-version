@@ -16,6 +16,8 @@ import net.mamoe.mirai.event.events.BotEvent
 import net.mamoe.mirai.event.events.BotInvitedJoinGroupRequestEvent
 import net.mamoe.mirai.event.events.NewFriendRequestEvent
 import net.mamoe.mirai.message.GroupMessageEvent
+import java.time.Duration
+import java.time.LocalDateTime
 
 fun Bot.subscribeAllFeature() {
 
@@ -45,64 +47,73 @@ fun Bot.subscribeAllFeature() {
             intercept()
             return@subscribeAlways
         }
-        if (groupMessageLimitDao.findLimitByGroupIdAsync(group.id).await().messageCount == groupConfig.limitCount) {
-            intercept()
-            return@subscribeAlways
+        val personalLimit = personalMessageLimitDao.findLimitByUserIdAndGroupIdAsync(
+                sender.id, group.id
+        ).await()
+
+        if (personalLimit.messageCount == groupConfig.personalLimitCount) {
+            if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.personalLimitTime) {
+                personalLimit.copy(firstSendTime = LocalDateTime.now(), messageCount = 1)
+            } else {
+                intercept()
+                return@subscribeAlways
+            }
         }
-        if (personalMessageLimitDao.findLimitByUserIdAndGroupIdAsync(sender.id, group.id).await().messageCount == groupConfig.personalLimitCount) {
-            intercept()
-            return@subscribeAlways
+
+        val groupLimit = groupMessageLimitDao.findLimitByGroupIdAsync(group.id).await()
+
+        if (groupLimit.messageCount == groupConfig.limitCount) {
+            if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.limitTime) {
+                groupMessageLimitDao.addOrUpdatePersonalMessageLimitAsync(
+                        groupLimit.copy(firstSendTime = LocalDateTime.now(), messageCount = 1)
+                ).await()
+            } else {
+                intercept()
+                return@subscribeAlways
+            }
         }
     }
 
     //admin指令
     subscribeGroupMessages(priority = Listener.EventPriority.LOWEST) {
-        wrapSentByOwner {
-            blackGroup()
-            blackUser()
-            disableGroup()
-            enableGroup()
-            permitInvite()
-            sendToGroup()
-            whiteGroup()
-            whiteUser()
-        }
+        blackGroup()
+        blackUser()
+        disableGroup()
+        enableGroup()
+        permitInvite()
+        sendToGroup()
+        whiteGroup()
+        whiteUser()
     }
 
     //sudo指令
     subscribeGroupMessages(priority = Listener.EventPriority.LOW) {
-        wrapSentByOwner {
-            banInstruction()
-            listCommand()
-            listInstruction()
-            openInstruction()
-            queryGroupConfig()
-            updateGroupConfig()
-        }
+        banInstruction()
+        listCommand()
+        listInstruction()
+        openInstruction()
+        queryGroupConfig()
+        updateGroupConfig()
     }
 
     //大部分用户会触发的事件
     subscribeGroupMessages(priority = Listener.EventPriority.NORMAL) {
-        wrapSentByOwner {
-            lot()
-            eatTogether()
-            giveMoney()
-            ownInfo()
-            ownStatus()
-            queryFeature()
-            robMoney()
-            todo()
-            touchOpai()
-            rotateImageFeature()
-        }
+        lot()
+        eatTogether()
+        giveMoney()
+        ownInfo()
+        ownStatus()
+        queryFeature()
+        robMoney()
+        todo()
+        touchOpai()
+        rotateImageFeature()
     }
 
     //一些可能会被拦截的事件
     subscribeGroupMessages(priority = Listener.EventPriority.MONITOR) {
-        wrapSentByOwner {
-            repeatMachine()
-            matchRegexCorpusFeature()
-            matchChatterBot()
-        }
+        repeatMachine()
+        matchRegexCorpusFeature()
+        matchChatterBot()
     }
 }
