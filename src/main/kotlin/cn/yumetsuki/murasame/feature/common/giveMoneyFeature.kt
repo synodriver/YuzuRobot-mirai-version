@@ -23,7 +23,7 @@ fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
             it.content.trim().removePrefix("打钱").toIntOrNull()?.let money@{ money ->
                 if (money == 0) return@money "岂可修！这不是没有钱嘛？！！！！狗修金快把钱都交出来！"
                 val user = qqUserDao.findQQUserByUserIdAndGroupIdOrNewDefault(sender.id, group.id)
-                if (user.money < money) "唔....主人的钱好像不太够呢...剩余资金: ${user.money}(饿"
+                if (user.money < money) return@money "唔....主人的钱好像不太够呢...剩余资金: ${user.money}(饿"
                 robotDao.findRobotByRobotName(robotName)?.let { robot ->
                     robot.money += money
                     robotDao.updateRobotRecord(robot)
@@ -31,7 +31,8 @@ fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
                 user.money -= money
                 val favoriteAdd = favoriteAddPerMoney * money
                 user.favorite += favoriteAdd
-                "呜哇！！！主人果然对吾辈最好了！～(拿去买好吃的\n(主人剩余资金: ${user.money}\n好感度增加: ${favoriteAdd}\n好感度: ${user.favorite}"
+                qqUserDao.updateQQUser(user)
+                return@money "呜哇！！！主人果然对吾辈最好了！～(拿去买好吃的\n(主人剩余资金: ${user.money}\n好感度增加: ${favoriteAdd}\n好感度: ${user.favorite}"
             }?:"唔姆？主人要给多少钱给吾辈呢...(饿"
         }?:"唔？...好像发生了点奇怪的错误.."
         quoteReply(msg)

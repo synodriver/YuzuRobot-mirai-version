@@ -62,6 +62,8 @@ fun GroupMessageSubscribersBuilder.todo(intercepted: Boolean = true) {
     }
 
     atBot() and contains("锻炼") quoteReply {
+        recordReplyEvent()
+        if (intercepted) intercept()
         val msg = message[PlainText]?.let {
             it.content.trim().removePrefix("锻炼").toIntOrNull()?.let hour@{ hour ->
                 val powerPerHour = 5
