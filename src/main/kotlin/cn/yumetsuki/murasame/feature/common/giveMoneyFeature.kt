@@ -24,6 +24,7 @@ fun GroupMessageSubscribersBuilder.giveMoney(intercepted: Boolean = true) {
                 if (money == 0) return@money "岂可修！这不是没有钱嘛？！！！！狗修金快把钱都交出来！"
                 val user = qqUserDao.findQQUserByUserIdAndGroupIdOrNewDefault(sender.id, group.id)
                 if (user.money < money) return@money "唔....主人的钱好像不太够呢...剩余资金: ${user.money}(饿"
+                if (money < 0) return@money "诶。。。钱怎么是负的呢。。神奇的bug？"
                 robotDao.findRobotByRobotName(robotName)?.let { robot ->
                     robot.money += money
                     robotDao.updateRobotRecord(robot)

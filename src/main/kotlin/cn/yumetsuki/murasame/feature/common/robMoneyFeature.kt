@@ -41,6 +41,7 @@ fun GroupMessageSubscribersBuilder.robMoney(intercepted: Boolean = true) {
             if (Random.nextInt(1..100) > 10) return@let PlainText("这是吾辈的钱kora！主人不可以抢吾辈的钱！！！(诶嘿嘿，吾辈还有${robot.money}元零花钱")
             val robedMoney = floor(robot.money / 100.0).toInt()
             if (robedMoney == 0) return@let PlainText("呜呜呜呜...吾辈已经没有钱了...主人好过分...")
+            if (robedMoney < 0) return@let PlainText("出现了神奇的bug？？？？？？")
             robotDao.updateRobotRecord(robot.apply { money -= robedMoney })
             val favoriteDecrement = (robedMoney * 1.5).toInt()
             qqUserDao.updateQQUser(user.apply {

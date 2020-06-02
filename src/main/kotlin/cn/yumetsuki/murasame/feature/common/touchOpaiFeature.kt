@@ -1,6 +1,7 @@
 package cn.yumetsuki.murasame.feature.common
 
 import cn.yumetsuki.murasame.feature.other.recordReplyEvent
+import cn.yumetsuki.murasame.listeningfilter.tag
 import cn.yumetsuki.murasame.repo.dao.GroupDao
 import cn.yumetsuki.resource.TOUCH_OPAI_BACK_IMG
 import cn.yumetsuki.resource.TOUCH_OPAI_IMG
@@ -19,7 +20,7 @@ fun GroupMessageSubscribersBuilder.touchOpai(intercepted: Boolean = true) {
 
     atBot() and content {
         message[PlainText]?.content?.trim() == "摸胸"
-    } reply {
+    } and tag("touchOpai") reply {
         recordReplyEvent()
         if (intercepted) intercept()
         val groupConfig = groupDao.queryGroupById(group.id)?:return@reply "诶...这个群好像没被授权..."

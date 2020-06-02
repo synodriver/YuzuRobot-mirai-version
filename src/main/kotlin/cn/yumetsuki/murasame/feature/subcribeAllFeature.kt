@@ -16,6 +16,7 @@ import net.mamoe.mirai.event.events.BotEvent
 import net.mamoe.mirai.event.events.BotInvitedJoinGroupRequestEvent
 import net.mamoe.mirai.event.events.NewFriendRequestEvent
 import net.mamoe.mirai.message.GroupMessageEvent
+import net.mamoe.mirai.message.data.content
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -45,6 +46,9 @@ fun Bot.subscribeAllFeature() {
     subscribeAlways<GroupMessageEvent>(priority = Listener.EventPriority.HIGH) {
         val groupConfig = groupDao.queryGroupById(group.id)?:run {
             intercept()
+            return@subscribeAlways
+        }
+        if (message.content.startsWith("sudo") || message.content.startsWith("admin")) {
             return@subscribeAlways
         }
         val personalLimit = personalMessageLimitDao.findLimitByUserIdAndGroupIdAsync(
