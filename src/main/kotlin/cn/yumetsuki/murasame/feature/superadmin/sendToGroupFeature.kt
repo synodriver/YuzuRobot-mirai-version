@@ -4,6 +4,7 @@ import cn.yumetsuki.murasame.repo.dao.GroupDao
 import cn.yumetsuki.util.globalKoin
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.getGroupOrNull
+import net.mamoe.mirai.message.data.PlainText
 
 fun GroupMessageSubscribersBuilder.sendToGroup() {
 

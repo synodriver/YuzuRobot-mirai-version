@@ -67,7 +67,7 @@ fun Bot.subscribeAllFeature() {
         val groupLimit = groupMessageLimitDao.findLimitByGroupIdAsync(group.id).await()
 
         if (groupLimit.messageCount == groupConfig.limitCount) {
-            if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.limitTime) {
+            if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.limitTime * 60) {
                 groupMessageLimitDao.addOrUpdatePersonalMessageLimitAsync(
                         groupLimit.copy(firstSendTime = LocalDateTime.now(), messageCount = 1)
                 ).await()
