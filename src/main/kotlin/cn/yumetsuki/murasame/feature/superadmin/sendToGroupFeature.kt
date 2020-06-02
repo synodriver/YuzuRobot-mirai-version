@@ -5,6 +5,7 @@ import cn.yumetsuki.util.globalKoin
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.getGroupOrNull
 import net.mamoe.mirai.message.data.PlainText
+import net.mamoe.mirai.message.data.asMessageChain
 
 fun GroupMessageSubscribersBuilder.sendToGroup() {
 
@@ -18,8 +19,9 @@ fun GroupMessageSubscribersBuilder.sendToGroup() {
         val arguments = it.removePrefix("admin send ").split(" ", limit = 2)
         if (arguments.size != 2) return@quoteReply "唔...参数好像有误呢...示例: admin send 1 发送一条消息～"
         val groupId = arguments[0].toLong()
-        val msg = arguments[1]
         val rMsg = groupDao.queryGroupById(groupId)?.let {
+            val firstMsg = message[PlainText]!!.content.removePrefix("admin send $groupId ")
+            val msg = firstMsg + message.drop(0).asMessageChain()
             bot.getGroupOrNull(groupId)?.sendMessage(msg)?.let {
                 "发送成功啦～"
             }?:"诶？...吾辈好像不在这个群里..."
