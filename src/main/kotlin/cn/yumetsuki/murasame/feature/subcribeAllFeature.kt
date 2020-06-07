@@ -14,6 +14,7 @@ import net.mamoe.mirai.Bot
 import net.mamoe.mirai.event.*
 import net.mamoe.mirai.event.events.BotEvent
 import net.mamoe.mirai.event.events.BotInvitedJoinGroupRequestEvent
+import net.mamoe.mirai.event.events.MessageRecallEvent
 import net.mamoe.mirai.event.events.NewFriendRequestEvent
 import net.mamoe.mirai.message.GroupMessageEvent
 import net.mamoe.mirai.message.data.content
@@ -78,6 +79,10 @@ fun Bot.subscribeAllFeature() {
         }
     }
 
+    subscribeAlways<MessageRecallEvent.GroupRecall> {
+        replyRecallMessage()
+    }
+
     //admin指令
     subscribeGroupMessages(priority = Listener.EventPriority.LOWEST) {
         blackGroup()
@@ -102,6 +107,7 @@ fun Bot.subscribeAllFeature() {
 
     //大部分用户会触发的事件
     subscribeGroupMessages(priority = Listener.EventPriority.NORMAL) {
+        recordMessage()
         lot()
         eatTogether()
         giveMoney()
