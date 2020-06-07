@@ -28,6 +28,8 @@ fun GroupMessageSubscribersBuilder.queryFeature(intercepted: Boolean = true) {
             "8. 转自己/我/群主"
         ).withLine(
             "9. 刷新我 刷新转自己的头像"
+        ).withLine(
+                "10. 防撤回(默认关闭，有需要请管理员开启)"
         ))
         Unit
     }
