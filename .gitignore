@@ -27,3 +27,5 @@ hs_err_pid*
 /config.json
 /device.json
 /static
+device-*.json
+.DS_Store

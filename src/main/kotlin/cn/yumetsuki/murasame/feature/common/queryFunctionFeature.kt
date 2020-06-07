@@ -24,6 +24,10 @@ fun GroupMessageSubscribersBuilder.queryFeature(intercepted: Boolean = true) {
             "6. 列出管理员可用指令: sudo lcmd"
         ).withLine(
             "7. [at小丛雨] 状态 查看当前打工、锻炼等事件状态"
+        ).withLine(
+            "8. 转自己/我/群主"
+        ).withLine(
+            "9. 刷新我 刷新转自己的头像"
         ))
         Unit
     }

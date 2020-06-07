@@ -19,6 +19,7 @@ dependencies {
     implementation "net.mamoe:mirai-core-qqandroid:$mirai_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_core_version"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_module_kotlin_version"
+    implementation "com.madgag:animated-gif-lib:$animated_gif_lib_version"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
