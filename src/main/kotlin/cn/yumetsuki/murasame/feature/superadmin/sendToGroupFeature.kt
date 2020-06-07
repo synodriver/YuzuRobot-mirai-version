@@ -21,7 +21,7 @@ fun GroupMessageSubscribersBuilder.sendToGroup() {
         val groupId = arguments[0].toLong()
         val rMsg = groupDao.queryGroupById(groupId)?.let {
             val firstMsg = message[PlainText]!!.content.removePrefix("admin send $groupId ")
-            val msg = firstMsg + message.drop(0).asMessageChain()
+            val msg = PlainText(firstMsg) + message.drop(0).asMessageChain()
             bot.getGroupOrNull(groupId)?.sendMessage(msg)?.let {
                 "发送成功啦～"
             }?:"诶？...吾辈好像不在这个群里..."
