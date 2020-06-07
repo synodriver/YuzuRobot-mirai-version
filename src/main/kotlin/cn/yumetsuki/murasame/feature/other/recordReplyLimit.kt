@@ -35,7 +35,7 @@ suspend fun GroupMessageEvent.recordReplyEvent() = coroutineScope {
         personalMessageLimitDao.addOrUpdatePersonalMessageLimitAsync(newPersonalLimit).await()
 
         //更新群组消息限制
-        val newGroupLimit = if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.limitTime) {
+        val newGroupLimit = if (Duration.between(personalLimit.firstSendTime, LocalDateTime.now()).seconds > groupConfig.limitTime * 60) {
             groupLimit.copy(firstSendTime = LocalDateTime.now(), messageCount = 1)
         } else {
             groupLimit.copy(messageCount = personalLimit.messageCount + 1)
