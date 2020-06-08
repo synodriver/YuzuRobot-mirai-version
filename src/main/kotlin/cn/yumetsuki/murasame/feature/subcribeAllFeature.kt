@@ -6,6 +6,7 @@ import cn.yumetsuki.murasame.feature.other.autoAgreeFriendRequest
 import cn.yumetsuki.murasame.feature.other.handleGroupInvite
 import cn.yumetsuki.murasame.feature.sudoadmin.*
 import cn.yumetsuki.murasame.feature.superadmin.*
+import cn.yumetsuki.murasame.repo.dao.BlackUserDao
 import cn.yumetsuki.murasame.repo.dao.GroupDao
 import cn.yumetsuki.murasame.repo.dao.GroupMessageLimitDao
 import cn.yumetsuki.murasame.repo.dao.PersonalMessageLimitDao
@@ -24,6 +25,7 @@ import java.time.LocalDateTime
 fun Bot.subscribeAllFeature() {
 
     val groupDao : GroupDao by globalKoin().inject()
+    val blackUserDao: BlackUserDao by globalKoin().inject()
     val groupMessageLimitDao : GroupMessageLimitDao by globalKoin().inject()
     val personalMessageLimitDao : PersonalMessageLimitDao by globalKoin().inject()
 
@@ -41,6 +43,12 @@ fun Bot.subscribeAllFeature() {
         }?:run {
             intercept()
             return@subscribeAlways
+        }
+    }
+    
+    subscribeAlways<GroupMessageEvent>(priority = Listener.EventPriority.HIGHEST) {
+        blackUserDao.queryBlackUserById(sender.id)?.also {
+            intercept()
         }
     }
 
