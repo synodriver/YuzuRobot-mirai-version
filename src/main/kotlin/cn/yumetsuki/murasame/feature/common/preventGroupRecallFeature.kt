@@ -4,7 +4,6 @@ import cn.yumetsuki.murasame.listeningfilter.tag
 import cn.yumetsuki.util.timeStamp
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import net.mamoe.mirai.contact.nameCardOrNick
 import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.event.events.MessageRecallEvent
 import net.mamoe.mirai.event.events.operatorOrBot
