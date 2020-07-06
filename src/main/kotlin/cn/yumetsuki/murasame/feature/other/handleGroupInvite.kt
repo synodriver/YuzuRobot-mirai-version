@@ -6,7 +6,7 @@ import net.mamoe.mirai.event.events.BotInvitedJoinGroupRequestEvent
 suspend fun BotInvitedJoinGroupRequestEvent.handleGroupInvite(groupDao: GroupDao) {
     groupDao.queryGroupById(groupId)?.also {
         groupDao.updateGroups(it.apply {
-            botUserId = invitorId
+            botUserId = bot.id
         })
         accept()
     }?:ignore()

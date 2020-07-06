@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "mysql:mysql-connector-java:5.1.47"
     implementation "me.liuwj.ktorm:ktorm-core:$ktorm_version"

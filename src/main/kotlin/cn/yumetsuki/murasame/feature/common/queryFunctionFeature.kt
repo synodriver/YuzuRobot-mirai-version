@@ -7,7 +7,7 @@ import net.mamoe.mirai.event.GroupMessageSubscribersBuilder
 import net.mamoe.mirai.message.data.PlainText
 
 fun GroupMessageSubscribersBuilder.queryFeature(intercepted: Boolean = true) {
-    case("./功能") quoteReply {
+    case("./功能") or contains("梦月查指令") quoteReply {
         recordReplyEvent()
         if (intercepted) intercept()
         quoteReply(PlainText("说明：部分标注限定的功能为特定QQ号/群定制，不在列表中").withLine(

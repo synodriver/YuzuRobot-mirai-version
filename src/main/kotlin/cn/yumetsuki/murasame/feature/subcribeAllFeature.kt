@@ -18,6 +18,7 @@ import net.mamoe.mirai.event.events.BotInvitedJoinGroupRequestEvent
 import net.mamoe.mirai.event.events.MessageRecallEvent
 import net.mamoe.mirai.event.events.NewFriendRequestEvent
 import net.mamoe.mirai.message.GroupMessageEvent
+import net.mamoe.mirai.message.data.Message
 import net.mamoe.mirai.message.data.content
 import java.time.Duration
 import java.time.LocalDateTime
